@@ -1,0 +1,67 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
+    background: var(--bg-light);
+}
+
+.auth-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.auth-card h2 {
+    margin-bottom: 2rem;
+    color: var(--text-main);
+    font-weight: 800;
+}
+
+.auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.auth-card input {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: #fafbfc;
+    transition: all 0.3s;
+}
+
+.auth-card input:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.1);
+}
+
+/* btn-primary inherited from App.css but defined here for specificity if needed */
+.auth-card .btn-primary {
+    margin-top: 0.5rem;
+}
+
+.auth-card p {
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+}
+
+.auth-card a {
+    color: var(--primary-orange);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-card a:hover {
+    text-decoration: underline;
+}

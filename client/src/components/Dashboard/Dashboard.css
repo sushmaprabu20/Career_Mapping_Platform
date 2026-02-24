@@ -1,0 +1,119 @@
+.dashboard-container {
+    padding: 2rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-header {
+    margin-bottom: 4rem;
+    text-align: center;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.75rem;
+    letter-spacing: -1px;
+}
+
+.dashboard-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.upload-section {
+    max-width: 650px;
+    margin: 0 auto;
+    border: 1px solid var(--border-color);
+}
+
+.upload-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+.upload-section p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.input-group {
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    background-color: #fafbfc;
+    color: var(--text-main);
+    transition: border-color 0.3s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+}
+
+.select-wrapper select:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+}
+
+.drag-drop-area {
+    border: 2px dashed #cbd5e0;
+    border-radius: 16px;
+    padding: 3.5rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    background: #fafbfc;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.drag-drop-area:hover {
+    background: #fff8f6;
+    border-color: var(--primary-orange);
+}
+
+.drag-drop-area p {
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.generate-roadmap-cta {
+    text-align: center;
+    margin: 4rem 0;
+    padding: 3rem;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem 5%;
+    }
+
+    .dashboard-header h1 {
+        font-size: 2rem;
+    }
+}
