@@ -137,6 +137,77 @@ const courseRecommendations = {
             description: 'Build machine learning models with Andrew Ng.',
             link: 'https://www.coursera.org/specializations/machine-learning-introduction',
             thumbnail: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=480'
+        },
+        {
+            title: 'Machine Learning A-Z™',
+            platform: 'Udemy',
+            description: 'Learn to create Machine Learning Algorithms in Python and R from Data Science experts.',
+            link: 'https://www.udemy.com/course/machinelearning/',
+            thumbnail: 'https://img-c.udemycdn.com/course/480x270/950390_270f_3.jpg'
+        }
+    ],
+    'aws': [
+        {
+            title: 'AWS Certified Solutions Architect',
+            platform: 'Udemy',
+            description: 'Complete guide to passing the AWS Solutions Architect Associate exam.',
+            link: 'https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/',
+            thumbnail: 'https://img-c.udemycdn.com/course/480x270/2159144_eff4.jpg'
+        },
+        {
+            title: 'AWS Cloud Practitioner Essentials',
+            platform: 'Coursera',
+            description: 'A fundamental introduction to AWS Cloud concepts.',
+            link: 'https://www.coursera.org/learn/aws-cloud-practitioner-essentials',
+            thumbnail: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=480'
+        }
+    ],
+    'tailwind': [
+        {
+            title: 'Tailwind CSS From Scratch',
+            platform: 'Udemy',
+            description: 'Learn Tailwind CSS by building multiple projects.',
+            link: 'https://www.udemy.com/course/tailwind-from-scratch/',
+            thumbnail: 'https://img-c.udemycdn.com/course/480x270/4616158_3695_2.jpg'
+        },
+        {
+            title: 'Tailwind CSS Full Course',
+            platform: 'YouTube',
+            description: 'Complete guide to styling with Tailwind CSS utility classes.',
+            link: 'https://www.youtube.com/watch?v=lCxcTsOHrjo',
+            thumbnail: 'https://i.ytimg.com/vi/lCxcTsOHrjo/maxresdefault.jpg'
+        }
+    ],
+    'rest api': [
+        {
+            title: 'REST APIs with Flask and Python',
+            platform: 'Udemy',
+            description: 'Build professional REST APIs with Python, Flask, Docker, and Flask-SMC.',
+            link: 'https://www.udemy.com/course/rest-api-flask-python/',
+            thumbnail: 'https://img-c.udemycdn.com/course/480x270/707962_c639_9.jpg'
+        },
+        {
+            title: 'What is a REST API?',
+            platform: 'YouTube',
+            description: 'Understanding REST API architecture and principles.',
+            link: 'https://www.youtube.com/watch?v=-mN3VyJuCjM',
+            thumbnail: 'https://i.ytimg.com/vi/-mN3VyJuCjM/maxresdefault.jpg'
+        }
+    ],
+    'cicd': [
+        {
+            title: 'CI/CD with Jenkins and Github',
+            platform: 'Udemy',
+            description: 'Learn how to automate your software development process.',
+            link: 'https://www.udemy.com/course/cicd-with-jenkins-and-github-actions/',
+            thumbnail: 'https://img-c.udemycdn.com/course/480x270/2667352_7e95_2.jpg'
+        },
+        {
+            title: 'DevOps CI/CD Tutorial',
+            platform: 'YouTube',
+            description: 'Step-by-step guide to setting up a CI/CD pipeline.',
+            link: 'https://www.youtube.com/watch?v=scEDHsr3APg',
+            thumbnail: 'https://i.ytimg.com/vi/scEDHsr3APg/maxresdefault.jpg'
         }
     ]
 };

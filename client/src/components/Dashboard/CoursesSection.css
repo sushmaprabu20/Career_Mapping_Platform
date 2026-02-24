@@ -96,18 +96,18 @@
 }
 
 .platform-udemy {
-    background: #ced4da;
-    color: #1c1d1f;
+    background: #a435f0;
+    color: white;
 }
 
 .platform-youtube {
-    background: #ffe3e3;
-    color: #ff0000;
+    background: #ff0000;
+    color: white;
 }
 
 .platform-coursera {
-    background: #e7f3ff;
-    color: #0056d2;
+    background: #0056d2;
+    color: white;
 }
 
 .platform-default {
