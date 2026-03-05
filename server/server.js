@@ -10,7 +10,6 @@ const connectDB = require('./config/db');
 
 const authRoutes = require('./routes/authRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
-const roadmapRoutes = require('./routes/roadmapRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 
 console.log('Starting server...');
@@ -32,7 +31,6 @@ console.log('Middleware applied');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/resume', resumeRoutes);
-app.use('/api/roadmap', roadmapRoutes);
 app.use('/api/courses', courseRoutes);
 console.log('Routes mounted');
 
