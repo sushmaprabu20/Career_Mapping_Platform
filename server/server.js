@@ -45,6 +45,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/mentors', require('./routes/mentorRoutes'));
 
 app.use('/api/community', require('./routes/communityRoutes'));
+app.use('/api/roadmap', require('./routes/roadmapRoutes'));
 console.log('Routes mounted');
 
 app.get('/api/diag', (req, res) => {

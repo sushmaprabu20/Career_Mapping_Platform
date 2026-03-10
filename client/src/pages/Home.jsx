@@ -15,7 +15,7 @@ const Home = () => {
                 >
                     <span className="badge-new">NEW: AI Career Mapping v2.0</span>
                     <h1>Navigate Your Career <br />With <span>AI Precision</span></h1>
-                    <p>Upload your resume to instantly identify skill gaps and generate a personalized 3-month roadmap to your dream role.</p>
+                    <p>Upload your resume to instantly identify skill gaps and generate a personalized roadmap to your dream role.</p>
                     <div className="hero-btns">
                         <Link to="/signup" className="btn-primary">Get Started Free</Link>
                         <Link to="/career-paths" className="btn-hero-secondary">Explore Paths</Link>

@@ -146,6 +146,35 @@
     color: #c53030;
 }
 
+/* Generate Roadmap Button inside Skill Card */
+.btn-generate-roadmap-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 1.25rem;
+    padding: 0.85rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(255, 87, 34, 0.25);
+}
+
+.btn-generate-roadmap-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(255, 87, 34, 0.35);
+}
+
+.btn-generate-roadmap-card:active {
+    transform: translateY(-1px);
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

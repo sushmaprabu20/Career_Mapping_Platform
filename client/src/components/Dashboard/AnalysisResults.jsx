@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { CheckCircle, XCircle, AlertCircle, Sparkles } from 'lucide-react';
+import RoadmapModal from './RoadmapModal';
 import './Analysis.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const AnalysisResults = ({ assessment, analysis, onReset }) => {
     const { readinessScore, targetCareer, matchedSkills, missingSkills, feasibility } = assessment;
+    const [showRoadmap, setShowRoadmap] = useState(false);
 
     const chartData = {
         datasets: [{
@@ -61,6 +63,15 @@ const AnalysisResults = ({ assessment, analysis, onReset }) => {
                     <ul>
                         {missingSkills.map(skill => <li key={skill}>{skill}</li>)}
                     </ul>
+                    {missingSkills.length > 0 && (
+                        <button
+                            className="btn-generate-roadmap-card"
+                            onClick={() => setShowRoadmap(true)}
+                        >
+                            <Sparkles size={16} />
+                            Generate Roadmap
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -81,6 +92,15 @@ const AnalysisResults = ({ assessment, analysis, onReset }) => {
                         ))}
                     </div>
                 </div>
+            )}
+
+            {showRoadmap && (
+                <RoadmapModal
+                    missingSkills={missingSkills}
+                    targetCareer={targetCareer}
+                    readinessScore={readinessScore}
+                    onClose={() => setShowRoadmap(false)}
+                />
             )}
         </div>
     );
