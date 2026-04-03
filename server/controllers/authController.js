@@ -33,12 +33,14 @@ const registerUser = async (req, res) => {
             });
             console.log(`[AUTH] Student profile initialized for: ${user._id}`);
 
-            res.status(201).json({
+            const resData = {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 token: generateToken(user._id),
-            });
+            };
+            console.log(`[AUTH] Registration successful for ${email}, sending data:`, resData);
+            res.status(201).json(resData);
         } else {
             res.status(400).json({ message: 'Invalid user data' });
         }

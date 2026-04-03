@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const rawBaseURL = import.meta.env.VITE_API_BASE_URL || '/api';
+console.log('[API] Initializing with baseURL:', rawBaseURL);
+
+if (rawBaseURL !== '/api' && !rawBaseURL.endsWith('/api') && !rawBaseURL.endsWith('/api/')) {
+    console.warn('[API WARNING] baseURL might be missing "/api" suffix. Incoming requests might 404 on the backend.');
+}
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+    baseURL: rawBaseURL,
     headers: {
         'Content-Type': 'application/json',
     },
