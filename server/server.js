@@ -58,7 +58,7 @@ const clientDistPath = path.join(__dirname, '../client/dist');
 app.use(express.static(clientDistPath));
 
 // For all other routes, send back index.html (SPA support)
-app.get('*', (req, res) => {
+app.get('(.*)', (req, res) => {
     if (req.url.startsWith('/api')) {
         return res.status(404).json({ message: 'API Route not found' });
     }
