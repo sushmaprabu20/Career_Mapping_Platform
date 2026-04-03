@@ -4,11 +4,19 @@ const path = require('path');
 const { uploadResume, analyzeManualSkills } = require('../controllers/resumeController');
 const { protect } = require('../services/authMiddleware');
 
+const fs = require('fs');
+
 const router = express.Router();
+
+// Ensure uploads directory exists with absolute path
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, uploadsDir);
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
