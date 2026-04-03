@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 
@@ -13,26 +14,21 @@ const authRoutes = require('./routes/authRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 
-
 console.log('Starting server...');
 console.log('Env loaded');
 
-
 connectDB().then(() => {
     console.log('[SERVER] Database connected successfully');
-    console.log(`[SERVER] Using Database: ${mongoose.connection.name}`);
-    console.log(`[SERVER] Collections: ${Object.keys(mongoose.connection.collections).join(', ')}`);
 }).catch(err => {
     console.error('[SERVER] Database connection failed:', err);
 });
 
 const app = express();
-console.log('Express app initialized');
 
 const corsOptions = {
     origin: (origin, callback) => {
         const allowedOrigins = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : [];
-        if (!origin || allowedOrigins.includes(origin) || process.env.FRONTEND_URL === '*') {
+        if (!origin || allowedOrigins.includes(origin) || process.env.FRONTEND_URL === '*' || !process.env.FRONTEND_URL) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
@@ -44,41 +40,42 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions)); // Use regex to handle all preflight routes in Express 5
+app.options(/.*/, cors(corsOptions)); 
 app.use(express.json());
 app.use(morgan('dev'));
-app.use((req, res, next) => {
-    console.log(`[INCOMING] ${req.method} ${req.url}`);
-    next();
-});
 
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', authRoutes);
 app.use('/api/resume', resumeRoutes);
-
 app.use('/api/courses', courseRoutes);
 app.use('/api/mentors', require('./routes/mentorRoutes'));
-
 app.use('/api/community', require('./routes/communityRoutes'));
 app.use('/api/roadmap', require('./routes/roadmapRoutes'));
-console.log('Routes mounted');
 
 app.get('/api/diag', (req, res) => {
     res.json({
         status: 'ok',
         env: process.env.NODE_ENV,
-        hasGeminiKey: !!process.env.GEMINI_API_KEY,
         dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
     });
 });
 
-app.get('/', (req, res) => {
+// Serve frontend static files in production
+const clientBuildPath = path.join(__dirname, '../client/dist');
+app.use(express.static(clientBuildPath));
 
-    res.send('API is running...');
+// For all other routes, send back index.html (SPA support)
+app.get('*', (req, res) => {
+    if (!req.url.startsWith('/api')) {
+        res.sendFile(path.join(clientBuildPath, 'index.html'));
+    } else {
+        res.status(404).json({ message: 'API Route not found' });
+    }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
