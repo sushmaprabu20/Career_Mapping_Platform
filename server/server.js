@@ -53,25 +53,20 @@ app.use('/api/mentors', require('./routes/mentorRoutes'));
 app.use('/api/community', require('./routes/communityRoutes'));
 app.use('/api/roadmap', require('./routes/roadmapRoutes'));
 
-app.get('/api/diag', (req, res) => {
-    res.json({
-        status: 'ok',
-        env: process.env.NODE_ENV,
-        dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
-    });
-});
-
 // Serve frontend static files in production
-const clientBuildPath = path.join(__dirname, '../client/dist');
-app.use(express.static(clientBuildPath));
+const clientDistPath = path.join(__dirname, '../client/dist');
+app.use(express.static(clientDistPath));
 
 // For all other routes, send back index.html (SPA support)
 app.get('*', (req, res) => {
-    if (!req.url.startsWith('/api')) {
-        res.sendFile(path.join(clientBuildPath, 'index.html'));
-    } else {
-        res.status(404).json({ message: 'API Route not found' });
+    if (req.url.startsWith('/api')) {
+        return res.status(404).json({ message: 'API Route not found' });
     }
+    res.sendFile(path.join(clientDistPath, 'index.html'), (err) => {
+        if (err) {
+            res.status(500).send('Error loading frontend. Make sure you ran "npm run build" in the root directory.');
+        }
+    });
 });
 
 const PORT = process.env.PORT || 3001;
