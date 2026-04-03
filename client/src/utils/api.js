@@ -1,11 +1,20 @@
 import axios from 'axios';
 
+// Detect if we are running in production on Render or locally
+const getBaseURL = () => {
+    if (import.meta.env.VITE_API_BASE_URL) return import.meta.env.VITE_API_BASE_URL;
+    if (window.location.hostname === 'localhost') return '/api';
+    return 'https://career-mapping-platform-back.onrender.com/api'; // YOUR EXACT BACKEND URL
+};
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+    baseURL: getBaseURL(),
     headers: {
         'Content-Type': 'application/json',
     },
 });
+
+console.log('[API CONFIG] Current Base URL:', api.defaults.baseURL);
 
 // Add a request interceptor to include the token
 api.interceptors.request.use(
