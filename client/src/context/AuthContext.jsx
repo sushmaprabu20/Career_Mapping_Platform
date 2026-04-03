@@ -21,14 +21,18 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (email, password) => {
+        console.log('[AUTH] Attempting login for:', email);
         const { data } = await api.post('/auth/login', { email, password });
+        console.log('[AUTH] Login Success:', data);
         setUser(data);
         localStorage.setItem('userInfo', JSON.stringify(data));
         localStorage.setItem('token', data.token);
     };
 
     const register = async (name, email, password) => {
+        console.log('[AUTH] Attempting registration for:', email);
         const { data } = await api.post('/auth/register', { name, email, password });
+        console.log('[AUTH] Registration Success:', data);
         setUser(data);
         localStorage.setItem('userInfo', JSON.stringify(data));
         localStorage.setItem('token', data.token);
