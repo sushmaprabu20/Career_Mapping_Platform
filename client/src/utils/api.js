@@ -1,23 +1,28 @@
 import axios from 'axios';
 
-const rawBaseURL = import.meta.env.VITE_API_BASE_URL || '/api';
-console.log('[API] Initializing with baseURL:', rawBaseURL);
-
-if (rawBaseURL !== '/api' && !rawBaseURL.endsWith('/api') && !rawBaseURL.endsWith('/api/')) {
-    console.warn('[API WARNING] baseURL might be missing "/api" suffix. Incoming requests might 404 on the backend.');
-}
+// Detect if we are running in production on Render or locally
+const getBaseURL = () => {
+    if (import.meta.env.VITE_API_BASE_URL) return import.meta.env.VITE_API_BASE_URL;
+    if (window.location.hostname === 'localhost') return '/api';
+    return 'https://career-mapping-platform-back.onrender.com/api';
+};
 
 const api = axios.create({
-    baseURL: rawBaseURL,
+    baseURL: getBaseURL(),
     headers: {
         'Content-Type': 'application/json',
     },
 });
 
+console.log('[API CONFIG] Current Base URL:', api.defaults.baseURL);
+
 // Add a request interceptor to include the token
 api.interceptors.request.use(
     (config) => {
-        const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+        const userInfo = localStorage.getItem('userInfo') 
+            ? JSON.parse(localStorage.getItem('userInfo')) 
+            : null;
+
         const directToken = localStorage.getItem('token');
 
         const token = userInfo?.token || directToken;
@@ -41,11 +46,17 @@ api.interceptors.request.use(
 // Add a response interceptor for debugging
 api.interceptors.response.use(
     (response) => {
-        console.log(`[API SUCCESS] ${response.config.method.toUpperCase()} ${response.config.url}`, response.data);
+        console.log(
+            `[API SUCCESS] ${response.config.method.toUpperCase()} ${response.config.url}`,
+            response.data
+        );
         return response;
     },
     (error) => {
-        console.error(`[API ERROR] ${error.config?.method?.toUpperCase()} ${error.config?.url}`, error.response?.data || error.message);
+        console.error(
+            `[API ERROR] ${error.config?.method?.toUpperCase()} ${error.config?.url}`,
+            error.response?.data || error.message
+        );
         return Promise.reject(error);
     }
 );
