@@ -13,8 +13,11 @@ const UploadSection = ({ onUploadStart, onUploadSuccess, onUploadError }) => {
         'Frontend Developer',
         'Backend Developer',
         'Data Scientist',
-        'DevOps Engineer'
+        'DevOps Engineer',
+        'Other'
     ];
+
+    const [customCareer, setCustomCareer] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,6 +26,12 @@ const UploadSection = ({ onUploadStart, onUploadSuccess, onUploadError }) => {
 
         onUploadStart();
         try {
+            const finalCareer = targetCareer === 'Other' ? customCareer : targetCareer;
+            if (targetCareer === 'Other' && !customCareer.trim()) {
+                onUploadError();
+                return alert('Please enter your target career');
+            }
+
             if (analysisMode === 'resume') {
                 if (!file) {
                     onUploadError();
@@ -30,7 +39,7 @@ const UploadSection = ({ onUploadStart, onUploadSuccess, onUploadError }) => {
                 }
                 const formData = new FormData();
                 formData.append('resume', file);
-                formData.append('targetCareer', targetCareer);
+                formData.append('targetCareer', finalCareer);
                 const { data } = await api.post('/resume/upload', formData);
                 onUploadSuccess(data);
             } else {
@@ -39,7 +48,7 @@ const UploadSection = ({ onUploadStart, onUploadSuccess, onUploadError }) => {
                     return alert('Please enter your skills');
                 }
                 const { data } = await api.post('/resume/analyze-manual', {
-                    targetCareer,
+                    targetCareer: finalCareer,
                     manualSkills
                 });
                 onUploadSuccess(data);
@@ -84,6 +93,20 @@ const UploadSection = ({ onUploadStart, onUploadSuccess, onUploadError }) => {
                         </select>
                     </div>
                 </div>
+
+                {targetCareer === 'Other' && (
+                    <div className="input-group">
+                        <label>Enter Your Target Career</label>
+                        <input
+                            type="text"
+                            placeholder="e.g. Flutter Developer, Cloud Architect..."
+                            value={customCareer}
+                            onChange={(e) => setCustomCareer(e.target.value)}
+                            required
+                            className="custom-career-input"
+                        />
+                    </div>
+                )}
 
                 {analysisMode === 'resume' ? (
                     <div className="drag-drop-area" onClick={() => document.getElementById('resume-file').click()}>

@@ -6,6 +6,7 @@ const SkillAssessment = require('../models/SkillAssessment');
 const { extractText } = require('../services/parserService');
 const { extractSkills } = require('../services/skillExtractionService');
 const careerConfig = require('../config/careerConfig');
+const { getSkillsForCareer } = require('../services/aiService');
 
 const uploadResume = async (req, res) => {
     try {
@@ -14,8 +15,15 @@ const uploadResume = async (req, res) => {
         }
 
         const { targetCareer } = req.body;
-        if (!targetCareer || !careerConfig[targetCareer]) {
-            return res.status(400).json({ message: 'Valid target career is required' });
+        if (!targetCareer) {
+            return res.status(400).json({ message: 'Target career is required' });
+        }
+
+        // Get required skills: from config OR dynamically from Groq
+        let requiredSkills = careerConfig[targetCareer];
+        if (!requiredSkills) {
+            console.log(`[ANALYSIS] Career ${targetCareer} not in config. Fetching from AI...`);
+            requiredSkills = await getSkillsForCareer(targetCareer);
         }
 
         if (!req.user) {
@@ -51,11 +59,10 @@ const uploadResume = async (req, res) => {
         }
         console.log('[ANALYSIS] Student profile updated successfully');
 
-        // 4. Calculate Alternative Careers
+        // 4. Calculate Alternative Careers (based on known config)
         console.log('[ANALYSIS] Calculating alternative career recommendations...');
         const allCareers = Object.keys(careerConfig);
         const recommendations = allCareers
-            .filter(career => career !== targetCareer)
             .map(career => {
                 const careerSkills = careerConfig[career];
                 const matchedForThisCareer = extractedSkills.filter(skill =>
@@ -86,7 +93,7 @@ const uploadResume = async (req, res) => {
 
         // 5. Skill gap analysis
         console.log(`[ANALYSIS] Performing skill gap analysis for target career: ${targetCareer}`);
-        const requiredSkills = careerConfig[targetCareer];
+        // requiredSkills is already set above (config or AI)
         const matchedSkills = extractedSkills.filter(skill =>
             requiredSkills.some(reqSkill => reqSkill.toLowerCase() === skill.toLowerCase())
         );
@@ -145,8 +152,15 @@ const uploadResume = async (req, res) => {
 const analyzeManualSkills = async (req, res) => {
     try {
         const { targetCareer, manualSkills } = req.body;
-        if (!targetCareer || !careerConfig[targetCareer]) {
-            return res.status(400).json({ message: 'Valid target career is required' });
+        if (!targetCareer) {
+            return res.status(400).json({ message: 'Target career is required' });
+        }
+
+        // Get required skills: from config OR dynamically from Groq
+        let requiredSkills = careerConfig[targetCareer];
+        if (!requiredSkills) {
+            console.log(`[MANUAL ANALYSIS] Career ${targetCareer} not in config. Fetching from AI...`);
+            requiredSkills = await getSkillsForCareer(targetCareer);
         }
         if (!manualSkills) {
             return res.status(400).json({ message: 'Skills are required for manual analysis' });
@@ -179,7 +193,6 @@ const analyzeManualSkills = async (req, res) => {
         // 3. Calculate Alternative Careers
         const allCareers = Object.keys(careerConfig);
         const recommendations = allCareers
-            .filter(career => career !== targetCareer)
             .map(career => {
                 const careerSkills = careerConfig[career];
                 const matchedForThisCareer = extractedSkills.filter(skill =>
@@ -196,7 +209,7 @@ const analyzeManualSkills = async (req, res) => {
             .slice(0, 3);
 
         // 4. Skill gap analysis
-        const requiredSkills = careerConfig[targetCareer];
+        // requiredSkills already set above (config or AI)
         const matchedSkills = extractedSkills.filter(skill =>
             requiredSkills.some(reqSkill => reqSkill.toLowerCase() === skill.toLowerCase())
         );

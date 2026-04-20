@@ -3,7 +3,39 @@ const router = express.Router();
 const communityController = require('../controllers/communityController');
 const { protect } = require('../services/authMiddleware');
 
-router.post('/posts', protect, communityController.createPost);
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Ensure community uploads directory exists
+const communityDir = path.join(__dirname, '../uploads/community');
+if (!fs.existsSync(communityDir)) {
+    fs.mkdirSync(communityDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, communityDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const upload = multer({
+    storage,
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const allowed = ['.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mov', '.avi'];
+        if (!allowed.includes(ext)) {
+            return cb(new Error('Only images and videos are allowed'));
+        }
+        cb(null, true);
+    },
+    limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
+});
+
+router.post('/posts', protect, upload.single('media'), communityController.createPost);
 router.get('/posts', protect, communityController.getPosts);
 router.post('/posts/:id/like', protect, communityController.likePost);
 router.post('/posts/:id/comment', protect, communityController.addComment);

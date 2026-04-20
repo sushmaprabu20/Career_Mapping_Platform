@@ -1,14 +1,31 @@
 const Post = require('../models/Post');
 const Group = require('../models/Group');
+const Job = require('../models/Job');
 
 exports.createPost = async (req, res) => {
     try {
         console.log('[COMMUNITY] Creating post:', req.body);
-        const { content, category } = req.body;
+        const { content, category, groupId } = req.body;
+        
+        let mediaUrl = req.body.imageUrl || null;
+        let mediaType = 'image';
+
+        if (req.file) {
+            mediaUrl = `/uploads/community/${req.file.filename}`;
+            const ext = req.file.filename.split('.').pop().toLowerCase();
+            if (['mp4', 'mov', 'avi'].includes(ext)) {
+                mediaType = 'video';
+            }
+        }
+
         const post = new Post({
             user: req.user._id,
             content,
-            category
+            category,
+            group: groupId || null,
+            mediaUrl,
+            mediaType,
+            jobData: req.body.jobData ? JSON.parse(req.body.jobData) : null
         });
         await post.save();
         const populatedPost = await Post.findById(post._id).populate('user', 'name');
@@ -20,9 +37,43 @@ exports.createPost = async (req, res) => {
 
 exports.getPosts = async (req, res) => {
     try {
-        const posts = await Post.find()
+        const { groupId, category } = req.query;
+        let query = {};
+        if (groupId) query.group = groupId;
+        if (category) query.category = category;
+        
+        const posts = await Post.find(query)
             .populate('user', 'name')
             .sort({ createdAt: -1 });
+
+        // If Job Hiring, inject Naukri jobs
+        if (category === 'Job Hiring' || (groupId && await Group.findById(groupId).then(g => g?.domain === 'Job Hiring'))) {
+            const externalJobs = await Job.find().sort({ createdAt: -1 }).limit(20);
+            const formattedExternal = externalJobs.map(job => ({
+                _id: job._id,
+                isExternalJob: true,
+                jobData: {
+                    role: job.role,
+                    company: job.company,
+                    location: job.location,
+                    applyLink: job.applyLink,
+                    isHiringPost: true
+                },
+                content: job.description,
+                category: 'Job Hiring',
+                user: { name: job.source }, // Naukri
+                likes: [],
+                comments: [],
+                createdAt: job.createdAt
+            }));
+            
+            // Merge and sort by date
+            const merged = [...posts, ...formattedExternal].sort((a, b) => 
+                new Date(b.createdAt) - new Date(a.createdAt)
+            );
+            return res.status(200).json(merged);
+        }
+
         res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching posts', error: error.message });

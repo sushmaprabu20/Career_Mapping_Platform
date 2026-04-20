@@ -1,19 +1,26 @@
 .community-container {
-    padding: 6rem 5%;
+    padding: 0 5% 2rem 5%;
     background: #f8fafc;
     min-height: 100vh;
 }
 
 .community-layout {
     display: grid;
-    grid-template-columns: 280px 1fr 320px;
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+    grid-template-columns: 260px 1fr 340px;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.community-sidebar {
+    position: sticky;
+    top: 80px;
+    height: fit-content;
 }
 
 .community-card h3 {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1a1a1a;
     margin-bottom: 0.5rem;
 }
 
@@ -38,10 +45,20 @@
     width: 100%;
 }
 
-.group-item-btn:hover {
+.group-item-btn:hover,
+.group-item-btn.active {
     background: #fff;
-    border-color: var(--border-color);
+    border-color: var(--primary-orange);
     box-shadow: var(--shadow-soft);
+}
+
+.group-item-btn.active .group-icon-mini {
+    background: var(--primary-orange);
+    color: #fff;
+}
+
+.group-item-btn.active .group-info-mini span {
+    color: var(--primary-orange);
 }
 
 .group-icon-mini {
@@ -67,10 +84,63 @@
     font-size: 0.8rem;
 }
 
+.group-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.joined-badge-mini {
+    background: #e6fffa;
+    color: #38b2ac;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.join-btn-mini {
+    margin-left: auto;
+    padding: 0.3rem 0.7rem;
+    background: var(--primary-orange);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.join-btn-mini:hover {
+    background: var(--primary-light);
+    color: var(--primary-orange);
+}
+
 /* Feed */
+.community-main {
+    min-height: 80vh;
+}
+
 .create-post-card {
     padding: 1.5rem;
     margin-bottom: 2rem;
+}
+
+.feed-loader {
+    text-align: center;
+    padding: 3rem;
+    font-weight: 600;
+    color: var(--primary-orange);
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+}
+
+.no-posts {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
 }
 
 .category-tabs {
@@ -110,17 +180,327 @@
     margin-bottom: 1rem;
 }
 
+.extra-inputs {
+    margin-bottom: 1rem;
+}
+
+.image-url-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    background: #f8fafc;
+    transition: 0.2s;
+}
+
+.image-url-input:focus {
+    border-color: var(--primary-orange);
+    background: #fff;
+    outline: none;
+}
+
 .post-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.join-warning {
+    color: var(--primary-orange);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.media-upload-area {
+    margin-bottom: 1.5rem;
+}
+
+.media-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: #f1f3f5;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.media-upload-btn:hover {
+    background: #e9ecef;
+    color: var(--primary-orange);
+}
+
+.media-preview-container {
+    margin-top: 1rem;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    max-height: 300px;
+    border: 1px solid var(--border-color);
+}
+
+.media-preview-container img,
+.media-preview-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.remove-media-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.remove-media-btn:hover {
+    background: rgba(255, 0, 0, 0.8);
+}
+
+.post-media {
+    margin: 1.2rem -1.8rem 1.5rem -1.8rem; /* Full width inside card */
+    background: #f8fafc;
+}
+
+.post-media img,
+.post-media video {
+    width: 100%;
+    max-height: 600px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Job Hiring Specifics */
+.job-card-content {
+    background: #fdf2f0;
+    border: 1px solid #ffe3dd;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    position: relative;
+}
+
+.job-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--primary-orange);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.job-card-header h4 {
+    font-size: 1.3rem;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.job-card-header h5 {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.job-card-body p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #4a5568;
+    margin-bottom: 1.5rem;
+}
+
+.btn-apply-job {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.btn-apply-job:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+}
+
+/* Job Posting UI */
+.job-toggle-area {
+    margin-bottom: 1rem;
+}
+
+.job-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.job-toggle-btn.active {
+    background: var(--primary-light);
+    color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.job-post-fields {
+    padding: 1.25rem;
+    background: #fafbfc;
+    border: 1px dashed var(--primary-orange);
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.job-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.job-field-row input {
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.job-field-row input:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+}
+
+/* Group Header Card */
+.group-header-card {
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    background: #fff;
+    color: var(--text-main);
+    border: 1.5px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+.group-header-card::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 150px;
+    height: 150px;
+    background: var(--primary-orange);
+    opacity: 0.05;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.group-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+}
+
+.group-header-info h2 {
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.group-header-info .text-muted {
+    color: #6b7280 !important;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    max-width: 80%;
+}
+
+.group-stats {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.group-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    background: #f3f4f6;
+    color: #4b5563;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.group-header-actions .btn-primary {
+    background: #fff;
+    color: var(--primary-orange);
+    padding: 0.8rem 1.5rem;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-joined {
+    background: #e6fffa;
+    color: #38b2ac;
+    border: 1px solid #b2f5ea;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: default;
+}
+
 /* Post Cards */
 .post-card {
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.post-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
 }
 
 /* Fade-out animation when a post is being deleted */
@@ -170,15 +550,17 @@
 }
 
 .user-avatar-mini {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     background: var(--primary-gradient);
     color: #fff;
-    border-radius: 50%;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.2);
 }
 
 .user-meta {
@@ -211,11 +593,26 @@
     font-size: 1.05rem;
 }
 
+.post-image {
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.post-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 500px;
+}
+
 .post-footer {
     display: flex;
     gap: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
+    border-top: 1px solid #f1f3f5;
+    padding-top: 1.2rem;
 }
 
 .post-action-btn {
@@ -302,7 +699,13 @@
     background: #fff;
 }
 
-/* Right Sidebar */
+    /* Right Sidebar */
+.community-sidebar-right {
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+}
+
 .sparkle-title {
     display: flex;
     align-items: center;

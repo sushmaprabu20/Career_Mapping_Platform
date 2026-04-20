@@ -73,6 +73,24 @@
     border-color: var(--primary-orange);
 }
 
+.custom-career-input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    background-color: #fafbfc;
+    color: var(--text-main);
+    transition: all 0.3s;
+}
+
+.custom-career-input:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 107, 74, 0.1);
+}
+
 .drag-drop-area {
     border: 2px dashed #cbd5e0;
     border-radius: 16px;

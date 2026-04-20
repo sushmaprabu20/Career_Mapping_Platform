@@ -7,6 +7,13 @@ import './Analysis.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const getScoreMessage = (score) => {
+    if (score >= 80) return "Excellent match! You have a very strong foundation for this role.";
+    if (score >= 60) return "Great match! You're on the right track, just refine a few skills.";
+    if (score >= 40) return "Strong potential. Focused learning on key gaps will get you there.";
+    return "We've identified several key areas to build upon for this career path.";
+};
+
 const AnalysisResults = ({ assessment, analysis, onReset }) => {
     const { readinessScore, targetCareer, matchedSkills, missingSkills, feasibility } = assessment;
     const [showRoadmap, setShowRoadmap] = useState(false);
@@ -47,7 +54,7 @@ const AnalysisResults = ({ assessment, analysis, onReset }) => {
                 </div>
                 <div className="hero-stats">
                     <h2>Targeting: {targetCareer}</h2>
-                    <p>We've analyzed your skills against the industry standards for this role.</p>
+                    <p>{getScoreMessage(readinessScore)}</p>
                 </div>
             </div>
 

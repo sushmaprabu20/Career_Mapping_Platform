@@ -28,8 +28,25 @@ const postSchema = new mongoose.Schema({
     }],
     category: {
         type: String,
-        enum: ['General', 'Backend Development', 'Frontend Development', 'Data Science', 'AI/ML', 'DevOps', 'Interview Experience'],
+        enum: ['General', 'Backend Development', 'Frontend Development', 'Data Science', 'AI/ML', 'DevOps', 'Interview Experience', 'Job Hiring'],
         default: 'General'
+    },
+    group: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group'
+    },
+    mediaUrl: String,
+    mediaType: {
+        type: String,
+        enum: ['image', 'video'],
+        default: 'image'
+    },
+    jobData: {
+        role: String,
+        company: String,
+        location: String,
+        applyLink: String,
+        isHiringPost: { type: Boolean, default: false }
     }
 }, {
     timestamps: true
