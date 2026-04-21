@@ -547,9 +547,9 @@ const Community = () => {
                                     {post.mediaUrl && (
                                         <div className="post-media">
                                             {post.mediaType === 'video' ? (
-                                                <video src={post.mediaUrl.startsWith('http') ? post.mediaUrl : `http://localhost:3001${post.mediaUrl}`} controls />
+                                                <video src={post.mediaUrl} controls />
                                             ) : (
-                                                <img src={post.mediaUrl.startsWith('http') ? post.mediaUrl : `http://localhost:3001${post.mediaUrl}`} alt="Post content" />
+                                                <img src={post.mediaUrl} alt="Post content" />
                                             )}
                                         </div>
                                     )}
