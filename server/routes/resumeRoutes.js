@@ -8,18 +8,22 @@ const fs = require('fs');
 
 const router = express.Router();
 
-// Ensure uploads directory exists with absolute path
-const uploadsDir = path.join(__dirname, '../uploads');
+// Ensure uploads directory exists with robust absolute pathing
+const uploadsDir = path.resolve(__dirname, '..', 'uploads');
 if (!fs.existsSync(uploadsDir)) {
+    console.log('[MULTER] Creating uploads directory at:', uploadsDir);
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        // Double check existence before each upload
+        if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
         cb(null, uploadsDir);
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '_')}`;
+        cb(null, uniqueName);
     }
 });
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 const getBaseURL = () => {
     if (import.meta.env.VITE_API_BASE_URL) return import.meta.env.VITE_API_BASE_URL;
     if (window.location.hostname === 'localhost') return '/api';
-    return 'https://career-mapping-platform-back.onrender.com/api';
+    return '/api'; // Use relative path for production on Render
 };
 
 const api = axios.create({

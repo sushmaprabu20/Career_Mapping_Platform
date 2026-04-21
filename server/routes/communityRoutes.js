@@ -7,18 +7,22 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure community uploads directory exists
-const communityDir = path.join(__dirname, '../uploads/community');
+// Ensure community uploads directory exists with robust absolute pathing
+const communityDir = path.resolve(__dirname, '..', 'uploads', 'community');
 if (!fs.existsSync(communityDir)) {
+    console.log('[MULTER] Creating community directory at:', communityDir);
     fs.mkdirSync(communityDir, { recursive: true });
 }
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        // Double check existence before each upload
+        if (!fs.existsSync(communityDir)) fs.mkdirSync(communityDir, { recursive: true });
         cb(null, communityDir);
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '_')}`;
+        cb(null, uniqueName);
     }
 });
 
